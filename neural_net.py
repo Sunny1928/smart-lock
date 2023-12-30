@@ -1,7 +1,3 @@
-import multiprocessing
-import os
-import time
-import matplotlib.pyplot as plt
 import torch
 from torch import nn
 import myconfig
@@ -25,11 +21,13 @@ class LstmSpeakerEncoder(BaseSpeakerEncoder):
         if saved_model:
             self._load_from(saved_model)
 
+
     def _aggregate_frames(self, batch_output):
         if myconfig.FRAME_AGGREGATION_MEAN:
             return torch.mean(batch_output, dim=1, keepdim=False)
         else:
             return batch_output[:, -1, :]
+
 
     def forward(self, x):
         D = 2 if myconfig.BI_LSTM else 1
