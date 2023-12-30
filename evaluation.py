@@ -46,7 +46,8 @@ def compare_two(file1, file2):
     scores = cosine_similarity(embedding1, embedding2)
 
     eval_time = time.time() - start_time
-    print("Finished evaluation in", eval_time, "seconds")
+    print("Device: ", myconfig.DEVICE)
+    print("Finished evaluation in ", eval_time, "seconds")
     print("Finished scores", scores)
 
     if scores >= 0.8:
