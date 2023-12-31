@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-import myconfig
+import utils.myconfig as myconfig
 
 class BaseSpeakerEncoder(nn.Module):
     def _load_from(self, saved_model):

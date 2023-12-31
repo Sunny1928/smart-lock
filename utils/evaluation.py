@@ -1,10 +1,12 @@
 import time
 import numpy as np
 import torch
+import time
 
-import feature_extraction
-import myconfig
-import neural_net
+import utils.feature_extraction as feature_extraction
+import utils.myconfig as myconfig
+import utils.neural_net as neural_net
+import utils.audio_file
 
 def run_inference(features, encoder, full_sequence=myconfig.USE_FULL_SEQUENCE_INFERENCE):
     """Get the embedding of an utterance using the encoder."""
@@ -12,6 +14,7 @@ def run_inference(features, encoder, full_sequence=myconfig.USE_FULL_SEQUENCE_IN
         # Full sequence inference.
         batch_input = torch.unsqueeze(torch.from_numpy(features), dim=0).float().to(myconfig.DEVICE)
         batch_output = encoder(batch_input)
+        
         return batch_output[0, :].cpu().data.numpy()
     
     else:
@@ -23,11 +26,13 @@ def run_inference(features, encoder, full_sequence=myconfig.USE_FULL_SEQUENCE_IN
 
         # Aggregate the inference outputs from sliding windows.
         aggregated_output = torch.mean(batch_output, dim=0, keepdim=False).cpu()
+        
         return aggregated_output.data.numpy()
 
 
 def cosine_similarity(a, b):
     """Compute cosine similarity between two embeddings."""
+
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
 
@@ -58,7 +63,6 @@ def compare_two(file1, file2):
 
 if __name__ == "__main__":
    
-   file1, file2 = "./data/sunny1.wav","./data/sunny.wav"
-
-   scores = compare_two(file1, file2)
-   print(scores)
+    file1, file2 = "./data/sunny.wav","./data/test.wav"
+    scores = compare_two(file1, file2)
+    print(scores)

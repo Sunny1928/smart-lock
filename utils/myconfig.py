@@ -6,7 +6,6 @@ import torch
 
 timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 filename = f"saved_model_{timestamp}.pt"
-SAVED_MODEL_PATH = os.path.join(os.path.expanduser('~'), r"C:\Users\Harsh Yadav\PycharmProjects\Audio_speakerRecognition\saved_model",filename)
 
 BATCH_SIZE = 8
 NUM_PROCESSES = min(multiprocessing.cpu_count(), BATCH_SIZE)
