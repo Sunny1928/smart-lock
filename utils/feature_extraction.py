@@ -35,6 +35,14 @@ def extract_features_raw():
 
     return features.transpose()
 
+def extract_features_eval(waveform):
+
+    if len(waveform.shape) == 2:
+        waveform = librosa.to_mono(waveform.transpose())
+    waveform = librosa.resample(waveform, orig_sr = 44100, target_sr = 16000)
+    features = librosa.feature.mfcc(y=waveform, sr=44100, n_mfcc=myconfig.N_MFCC)
+
+    return features.transpose()
 
 
 def extract_features(audio_file):

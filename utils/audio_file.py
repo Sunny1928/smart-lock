@@ -33,3 +33,6 @@ wf.setsampwidth(p.get_sample_size(sample_format))  # 設定格式
 wf.setframerate(fs)              # 設定取樣頻率
 wf.writeframes(b''.join(frames)) # 存檔
 wf.close()
+
+
+
