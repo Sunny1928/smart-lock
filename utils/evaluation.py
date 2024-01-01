@@ -42,9 +42,13 @@ def cosine_similarity(a, b):
 def eval(user_name):
     """Run evaluation of the saved model on test data."""
     encoder = neural_net.get_speaker_encoder(r'./saved_model/saved_model_lstm.pt')
+
+   
+    print("--------------------------------------")
+    print()
+    print("Hi, what can I help?")
     waveform = record_audio()
     
-    # 讀檔
     all_register_users = load_register_user()
     if user_name not in all_register_users.keys():
         print("Not find this user")
@@ -57,14 +61,14 @@ def eval(user_name):
     scores = cosine_similarity(embedding, target_user_embedding)
 
     eval_time = time.time() - start_time
-    print("Device: ", myconfig.DEVICE)
-    print("Finished evaluation in ", eval_time, "seconds")
-    print("Finished scores", scores)
+    # print("Device: ", myconfig.DEVICE)
+    # print("Finished evaluation in ", eval_time, "seconds")
+    # print("Finished scores", scores)
 
     if scores >= 0.9:
-        return True
+        return "Welcome Home"
 
-    return False
+    return "You are not the home members"
 
 def compare_two(file1, file2):
     """Run evaluation of the saved model on test data."""
@@ -93,10 +97,18 @@ def compare_two(file1, file2):
 def register_user(user_name):
     # class 後可以拿掉 Line72
     encoder = neural_net.get_speaker_encoder(r'./saved_model/saved_model_lstm.pt')
+    
+   
+    print("--------------------------------------")
+    print()
+    print()
+    print("Register user")
     waveform = record_audio()
     feature = feature_extraction.extract_features_eval(waveform= waveform)
     embedding = run_inference(feature, encoder)
     save_embedding(user_name= user_name, embedding= embedding)
+    
+
 
 def load_register_user():
     try:
