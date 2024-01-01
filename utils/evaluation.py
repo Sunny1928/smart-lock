@@ -50,7 +50,6 @@ def eval(user_name):
         print("Not find this user")
         return 
     target_user_embedding = all_register_users[user_name]
-    print("!!")
     start_time = time.time()
     
     features = feature_extraction.extract_features_eval(waveform)
@@ -95,7 +94,7 @@ def register_user(user_name):
     # class 後可以拿掉 Line72
     encoder = neural_net.get_speaker_encoder(r'./saved_model/saved_model_lstm.pt')
     waveform = record_audio()
-    feature = feature_extraction.extract_features(waveform= waveform)
+    feature = feature_extraction.extract_features_eval(waveform= waveform)
     embedding = run_inference(feature, encoder)
     save_embedding(user_name= user_name, embedding= embedding)
 
@@ -139,20 +138,18 @@ def record_audio(record_seconds = 4):
     print("Stop recording...")
     print()
     waveform_1D = waveform.ravel()
-
-    first_non_zero = np.where(waveform_1D > 0.01)[0][0]
-    last_non_zero = np.where(waveform_1D > 0.01)[0][-1]
-    non_zero_audio = waveform_1D[first_non_zero:last_non_zero+1]
-    # new_list = np.array(non_zero_audio).reshape(-1,1)
-
-    # recording_int16 = np.int16(new_list * 32767)
-
+    
+    # remove silence  
+    # first_non_zero = np.where(waveform_1D > 0.01)[0][0]
+    # last_non_zero = np.where(waveform_1D > 0.01)[0][-1]
+    # non_zero_audio = waveform_1D[first_non_zero:last_non_zero+1]
+ 
     # # 將錄音數據保存為 WAV 檔案
+    # new_list = np.array(non_zero_audio).reshape(-1,1)
+    # recording_int16 = np.int16(new_list * 32767)
     # write("./data/test_1.wav" , sample_rate, recording_int16)
-    return non_zero_audio
-    # 檢查錄音的數據類型
-    # print("數據類型：", recording.dtype)
-    # print(recording)
+    
+    return waveform_1D
 
 
 
