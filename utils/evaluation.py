@@ -99,8 +99,12 @@ def register_user(user_name):
     save_embedding(user_name= user_name, embedding= embedding)
 
 def load_register_user():
-    with open("./register_user.json", "r") as f:
-        return json.load(f)
+    try:
+        with open("./register_user.json", "r") as f:
+            return json.load(f)
+    except Exception as e:
+        print(e)
+        print(f"There isn't register file.")
 
 def save_embedding(user_name, embedding):
 
@@ -109,7 +113,7 @@ def save_embedding(user_name, embedding):
         with open("./register_user.json", "r") as f:
             data = json.load(f)
         # Add new user
-        data[user_name] = embedding
+        data[user_name] = embedding.tolist()
         json.dump(data, open("./register_user.json",'w'))
     
     except Exception as e:
